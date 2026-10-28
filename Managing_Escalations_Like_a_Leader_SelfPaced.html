@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Managing Escalations Like a Leader | Self-paced course</title><style>
+:root{
+  --navy:#243748; --ink:#1B1A23; --blue:#2683C6; --teal:#3394BA; --aqua:#57B6C0; --sage:#76BDA7; --coral:#E4572E; --gold:#F2B134;
+  --bg:#FFFFFF; --surface:#EEF4F8; --surface2:#E3F1F6; --text:#1B1A23; --muted:#5B6775; --line:#D5DEE6;
+  --side:#243748; --sideText:#FFFFFF; --sideMuted:#B8C7D3; --good:#2F8A6E; --goodBg:#E6F3EE; --badBg:#FCE9E3; --warnBg:#FDF3DD;
+  --accentText:#1F6F8F;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141C24; --surface:#1E2A36; --surface2:#22323F; --text:#E8EEF3; --muted:#A9B6C2; --line:#33475A;
+    --side:#0F161D; --sideText:#E8EEF3; --sideMuted:#8FA3B4; --good:#7FD1B3; --goodBg:#183329; --badBg:#3A2019; --warnBg:#3A3018;
+    --accentText:#7CCBE0;
+    color-scheme: dark;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:Calibri,"Segoe UI",Carlito,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.55}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+aside{background:var(--side);color:var(--sideText);padding:28px 20px;position:sticky;top:0;height:100vh;overflow:auto}
+aside .course{font-size:14px;color:var(--sideMuted);margin:0 0 4px}
+aside h1{font-size:22px;line-height:1.2;margin:0 0 18px}
+.prog{height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.prog i{display:block;height:100%;width:0;background:var(--aqua);transition:width .4s}
+.progLabel{font-size:13px;color:var(--sideMuted);margin-bottom:20px}
+nav ol{list-style:none;padding:0;margin:0}
+nav li button{width:100%;text-align:left;background:none;border:0;color:var(--sideText);padding:10px 10px;border-radius:8px;display:flex;gap:12px;align-items:flex-start}
+nav li button:hover{background:rgba(255,255,255,.07)}
+nav li button[aria-current="true"]{background:rgba(87,182,192,.22)}
+nav .dot{flex:0 0 26px;height:26px;border-radius:50%;border:2px solid var(--sideMuted);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--sideMuted)}
+nav .done .dot{background:var(--sage);border-color:var(--sage);color:#123}
+nav .t{font-size:15px;line-height:1.3}
+nav .m{display:block;font-size:12px;color:var(--sideMuted)}
+.menuBtn{display:none}
+main{padding:44px clamp(20px,5vw,72px) 80px;max-width:1040px}
+.mod{display:none}
+.mod.active{display:block}
+.kicker{color:var(--accentText);font-weight:700;font-size:15px;margin:0 0 6px}
+h2{font-size:clamp(30px,4vw,42px);line-height:1.12;margin:0 0 10px;color:var(--text)}
+h3{font-size:23px;margin:36px 0 10px}
+h4{font-size:18px;margin:0 0 6px}
+p.lead{font-size:19px;color:var(--muted);max-width:68ch;margin:0 0 26px}
+p{max-width:72ch}
+.panel{background:var(--surface);border-radius:14px;padding:22px 24px;margin:16px 0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.grid > .panel{margin:0}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:999px;padding:11px 24px;font-weight:700}
+.btn:hover{background:var(--blue)}
+.btn.ghost{background:transparent;color:var(--accentText);border:2px solid var(--teal)}
+.btn.next{background:var(--navy)}
+@media (prefers-color-scheme: dark){.btn.next{background:var(--teal)}}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.tag{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--surface2);color:var(--accentText)}
+
+/* Hero: incoming escalation email */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:34px;align-items:center;margin-bottom:34px}
+.mail{background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 40px rgba(36,55,72,.18);overflow:hidden;transform:rotate(-1.5deg)}
+.mail .bar{background:var(--navy);color:#fff;padding:10px 16px;font-size:14px;display:flex;justify-content:space-between}
+.mail .body{padding:18px 20px}
+.mail .from{font-size:14px;color:var(--muted)}
+.mail .subj{font-weight:700;font-size:18px;margin:6px 0 10px}
+.mail .flag{color:var(--coral);font-weight:700}
+.unread{width:10px;height:10px;border-radius:50%;background:var(--coral);display:inline-block;margin-right:8px;animation:pulse 1.6s ease-in-out 3}
+@keyframes pulse{50%{transform:scale(1.7);opacity:.5}}
+@media (prefers-reduced-motion: reduce){.unread{animation:none}.prog i{transition:none}}
+.path{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:12px 0}
+.path div{border-left:0;background:var(--surface);border-radius:12px;padding:16px}
+.path b{display:block;font-size:24px;color:var(--accentText)}
+
+/* Quiz-style options */
+.q{margin:0 0 22px}
+.q .stem{font-weight:700;margin-bottom:10px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:11px 14px;color:var(--text)}
+.opt:hover{border-color:var(--aqua)}
+.opt[aria-pressed="true"]{border-color:var(--teal);background:var(--surface2)}
+.opt.correct{border-color:var(--good);background:var(--goodBg)}
+.opt.wrong{border-color:var(--coral);background:var(--badBg)}
+.fb{margin-top:10px;padding:12px 14px;border-radius:10px;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--goodBg)}
+.fb.bad{background:var(--badBg)}
+.fb.info{background:var(--warnBg)}
+.counter{font-size:14px;color:var(--muted);margin-bottom:8px}
+
+/* Style results */
+.bars{display:grid;gap:10px;margin:14px 0}
+.barRow{display:grid;grid-template-columns:110px 1fr 30px;gap:10px;align-items:center;font-weight:700}
+.barTrack{height:16px;background:var(--surface2);border-radius:8px;overflow:hidden}
+.barTrack i{display:block;height:100%;border-radius:8px}
+.styleCard{border-radius:14px;padding:22px;color:#fff}
+.styleCard h4{font-size:26px;margin:0}
+.styleCard p{margin:6px 0}
+
+/* Levels */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:2px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:8px 16px;font-weight:700}
+.tabs button[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media (prefers-color-scheme: dark){.tabs button[aria-selected="true"]{background:var(--teal);border-color:var(--teal)}}
+.lvl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;margin:10px 0 6px}
+.lvl div{border-radius:10px 10px 4px 4px;color:#fff;padding:10px 12px;font-weight:700;font-size:15px}
+
+/* Iceberg reveal */
+.ice{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,var(--bg) 0 34%,#1F5F7A 34% 100%)}
+@media (prefers-color-scheme: dark){.ice{background:linear-gradient(180deg,var(--surface) 0 34%,#123848 34% 100%)}}
+.ice .tip{padding:20px 24px;min-height:120px}
+.ice .under{padding:20px 24px;color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{padding:8px 14px;border-radius:999px;font-weight:700;font-size:15px}
+.ice .tip .chip{background:var(--surface2);color:var(--text)}
+.ice .under .chip{background:rgba(255,255,255,.14);color:#fff;border:1px dashed rgba(255,255,255,.5)}
+.ice .under .chip.hidden{color:transparent;user-select:none}
+
+/* Sorter */
+.sortRow{display:grid;grid-template-columns:1fr 150px 28px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+select,input[type=text],textarea{font:inherit;background:var(--bg);color:var(--text);border:2px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+textarea{min-height:76px;resize:vertical}
+label{font-weight:700;display:block;margin:12px 0 4px}
+
+/* STEER */
+.steer{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.steer button{border:0;border-radius:14px;padding:16px 8px;color:#fff;font-weight:700}
+.steer button b{display:block;font-size:40px;line-height:1}
+.steer button[aria-pressed="true"]{outline:4px solid var(--gold);outline-offset:2px}
+.steerDetail{min-height:150px}
+
+/* Branching */
+.lobs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lobs button{background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:14px;color:var(--text);text-align:left;font-weight:700}
+.lobs button:hover{border-color:var(--teal)}
+.scene{border-radius:14px;padding:22px 24px;background:var(--navy);color:#fff}
+@media (prefers-color-scheme: dark){.scene{background:#1A3346}}
+.scene .clock{font-size:14px;color:#B8C7D3;margin-bottom:4px}
+.steps{display:flex;gap:6px;margin:12px 0}
+.steps i{height:6px;flex:1;border-radius:3px;background:var(--line)}
+.steps i.on{background:var(--teal)}
+
+/* Region flip cards */
+.flip{background:none;border:0;padding:0;perspective:1000px;height:250px;text-align:left;color:inherit}
+.flip .inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip[aria-pressed="true"] .inner{transform:rotateY(180deg)}
+.flip .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:18px;display:flex;flex-direction:column}
+.flip .front{background:var(--surface)}
+.flip .back{color:#fff;transform:rotateY(180deg)}
+.flip .code{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;margin-bottom:10px}
+.flip .hint{margin-top:auto;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.flip .inner{transition:none}}
+.tz{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center}
+.tz div{background:var(--surface);border-radius:12px;padding:14px}
+.tz b{display:block;font-size:26px}
+.tz .night{background:#1D2B38;color:#E8EEF3}
+
+/* Builder */
+.preview{background:var(--bg);border:2px dashed var(--teal);border-radius:12px;padding:18px;font-size:18px;white-space:pre-wrap}
+.swap{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  aside{position:relative;height:auto;padding:16px 18px}
+  aside nav{display:none}
+  aside.open nav{display:block}
+  .menuBtn{display:inline-block;background:transparent;color:#fff;border:2px solid var(--aqua);border-radius:999px;padding:6px 14px;margin-bottom:10px}
+  .hero,.g2,.g3,.g4,.path,.lobs,.swap{grid-template-columns:1fr}
+  .steer,.lvl,.tz{grid-template-columns:repeat(2,1fr)}
+  .mail{transform:none}
+  .sortRow{grid-template-columns:1fr}
+}
+
+.grid > .panel{margin:0}
+.scale{display:grid;grid-template-columns:1fr repeat(5,44px);gap:6px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.scale .lab{font-size:16px}
+.scale button{height:40px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--text);font-weight:700}
+.scale button[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.scaleHead{display:grid;grid-template-columns:1fr repeat(5,44px);gap:6px;font-size:12px;color:var(--muted);text-align:center}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.three .panel{margin:0}
+.three b.big{display:block;font-size:20px;margin-bottom:4px}
+.newfact{border-left:0;background:var(--warnBg);border-radius:10px;padding:12px 14px;margin:12px 0;display:none}
+.newfact.show{display:block}
+.vague{background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:16px 18px;font-style:italic;font-size:18px}
+.checks{display:grid;gap:8px;margin:12px 0}
+.checks label{font-weight:400;display:flex;gap:10px;align-items:flex-start;margin:0;background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.checks input{margin-top:5px;width:18px;height:18px;flex:0 0 18px}
+.checks label.correct{border-color:var(--good);background:var(--goodBg)}
+.checks label.wrong{border-color:var(--coral);background:var(--badBg)}
+.checks label.missed{border-style:dashed;border-color:var(--good)}
+.why{display:grid;gap:8px}
+.why .w{display:none;background:var(--surface);border-radius:10px;padding:12px 14px}
+.why .w.show{display:block}
+.why .w b{color:var(--accentText)}
+.why .w.root{background:var(--goodBg)}
+.logt{width:100%;border-collapse:collapse;font-size:15px;margin:10px 0}
+.logt th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px}
+.logt td{padding:8px 10px;border-bottom:1px solid var(--line)}
+.logt tr:nth-child(even) td{background:var(--surface)}
+.toolkit .tool{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;break-inside:avoid}
+.toolkit .tool h4{font-size:20px;color:var(--accentText)}
+.toolkit ul{margin:6px 0 0;padding-left:20px}
+.toolkit li{margin:3px 0}
+.tool table{width:100%;border-collapse:collapse;font-size:15px}
+.tool td{border:1px solid var(--line);padding:8px 10px;vertical-align:top}
+.tool td:first-child{font-weight:700;width:34%}
+.compare{display:grid;grid-template-columns:1fr 70px 70px;gap:6px;align-items:center;font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)}
+.compare b{text-align:center}
+.pass{font-size:22px;font-weight:700}
+@media print{
+  aside,.foot,.noprint,.btn{display:none!important}
+  .app{display:block}
+  body{background:#fff;color:#000}
+  .mod{display:none!important}
+  body.p-plan #mPlan, body.p-tools #mTools{display:block!important}
+  body.p-plan #mPlan .noprintsec{display:none!important}
+  textarea,input{border:1px solid #999}
+  .toolkit .tool{border:1px solid #999}
+}
+@media (max-width:900px){.three{grid-template-columns:1fr}.scale,.scaleHead{grid-template-columns:1fr repeat(5,36px)}}
+</style></head>
+<body>
+<div class="app">
+<aside id="side">
+  <p class="course">Senior Leadership Programme | Leadership Foundations</p>
+  <h1>Managing Escalations Like a Leader</h1>
+  <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
+  <div class="progLabel" id="progLabel">0 sections complete</div>
+  <button class="menuBtn" id="menuBtn" aria-expanded="false">Course menu</button>
+  <nav aria-label="Course sections"><ol id="navList"></ol></nav>
+</aside>
+
+<main id="main" tabindex="-1">
+
+<!-- ============ WELCOME ============ -->
+<section class="mod" id="mWelcome" data-title="Welcome" data-time="5 min">
+  <div class="hero">
+    <div>
+      <p class="kicker">Self-paced course | about 2 hours | complete it in one sitting or in parts</p>
+      <h2>The email arrives at 7:40 pm. What happens next is leadership.</h2>
+      <p class="lead">For Senior Managers through to Directors across the US, India, the Philippines and Sri Lanka. This isn't a refresher on the escalation process. It's about the decisions, conversations and habits that set senior leaders apart when the pressure is on.</p>
+    </div>
+    <div class="mail" role="img" aria-label="Example escalation email from a client">
+      <div class="bar"><span>Inbox</span><span>7:40 pm</span></div>
+      <div class="body">
+        <div class="from"><span class="unread"></span>From: VP Operations, client account</div>
+        <div class="subj">RE: RE: Service levels <span class="flag">— escalation</span></div>
+        <p style="margin:0">This is the third time this month. I need a call with your leadership today, and I want to understand why nobody told us sooner.</p>
+      </div>
+    </div>
+  </div>
+  <div class="panel" style="background:var(--navy);color:#fff">
+    <p style="margin:0;font-size:20px"><b>The one idea to hold on to:</b> escalate early, own it throughout, communicate clearly. Escalating is never the same as handing over accountability.</p>
+  </div>
+  <h3>What you'll be able to do</h3>
+  <div class="grid g3">
+    <div class="panel"><h4>Know your style</h4><p class="small" style="margin:0">Recognise where you go first under pressure, and what to add.</p></div>
+    <div class="panel"><h4>Size it and decide</h4><p class="small" style="margin:0">Judge severity and choose to resolve, monitor or escalate.</p></div>
+    <div class="panel"><h4>Lead with STEER</h4><p class="small" style="margin:0">Take control from the first hour to the final review.</p></div>
+    <div class="panel"><h4>Communicate both ways</h4><p class="small" style="margin:0">Calm clients, and give your own leaders decision-ready updates.</p></div>
+    <div class="panel"><h4>Lead across regions</h4><p class="small" style="margin:0">Close time-zone gaps, hand over safely and hear bad news early.</p></div>
+    <div class="panel"><h4>Prevent the next one</h4><p class="small" style="margin:0">Find root causes and patterns, and hold firm when it gets worse.</p></div>
+  </div>
+  <h3>Before you start: how confident are you today?</h3>
+  <p>Rate yourself from 1 (not confident) to 5 (very confident). You'll rate yourself again at the end and see how you've moved.</p>
+  <div class="panel"><div class="scaleHead" aria-hidden="true"><span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div><div id="confPre"></div></div>
+  <p class="muted small">Examples come from all our lines of business: RCM, customer support, back-office, IT, projects, quality and cross-functional teams. Your answers stay in this browser window and aren't recorded anywhere. Your progress isn't saved if you close the page, so keep it open if you're working in parts.</p>
+  <div class="foot"><span class="muted small">Next: your escalation style</span><button class="btn next" data-next>Start the course</button></div>
+</section>
+
+<!-- ============ STYLE ============ -->
+<section class="mod" id="mStyle" data-title="Your escalation style" data-time="12 min">
+  <p class="kicker">Section 1</p>
+  <h2>Your Escalation Style Profile</h2>
+  <p class="lead">Twelve situations, about 6 minutes. Every option is something a good leader might reasonably do, so there's no right answer. Pick what you'd most likely do first, not what you think you should do.</p>
+  <div id="profileWrap" class="panel"></div>
+  <div id="profileResult" hidden></div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ LEADERSHIP MOMENT ============ -->
+<section class="mod" id="mMoment" data-title="The leadership moment" data-time="10 min">
+  <p class="kicker">Section 2</p>
+  <h2>The leadership moment</h2>
+  <p class="lead">Most of you got here by being excellent problem-solvers. At senior level, an escalation tests something different: whether you own the outcome, not whether you can fix the ticket.</p>
+
+  <h3>Escalating isn't handing over</h3>
+  <p>When something goes up the line, it usually takes one of three forms. Only two of them are leadership.</p>
+  <div class="three">
+    <div class="panel"><b class="big">Raising a risk</b><p class="small" style="margin:0">"Here's what's happening, what I've done and what could happen next. I'm still on it." You keep ownership and make sure the right people know early.</p></div>
+    <div class="panel"><b class="big">Asking for a decision</b><p class="small" style="margin:0">"Here are the options and my recommendation. I need you to decide X by Y." You keep ownership and bring a clear request.</p></div>
+    <div class="panel" style="background:var(--badBg)"><b class="big">Passing the problem</b><p class="small" style="margin:0">"We have a serious issue. Please advise." Nothing is contained or recommended, and nobody owns the next step. This is the one to avoid.</p></div>
+  </div>
+
+  <h3>From fixer to owner</h3>
+  <div class="panel" id="shiftList"></div>
+
+  <h3>What an escalation really costs</h3>
+  <p>The client sees the tip. Select each hidden chip to see what sits below the surface.</p>
+  <div class="ice">
+    <div class="tip"><h4>What the client sees</h4>
+      <div class="chips"><span class="chip">The angry email</span><span class="chip">SLA, TAT or accuracy breach</span><span class="chip">Penalty or service credit</span></div>
+    </div>
+    <div class="under"><h4 style="color:#fff">What the business pays</h4><div class="chips" id="iceChips"></div></div>
+  </div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ SIZE IT ============ -->
+<section class="mod" id="mSize" data-title="Size it and decide" data-time="12 min">
+  <p class="kicker">Section 3</p>
+  <h2>Size it and decide</h2>
+  <p class="lead">Two mistakes are common at senior level: staying in the background when you should be front and centre, and taking over when your Manager should lead. Sizing the escalation first prevents both.</p>
+
+  <h3>Five questions to triage any situation</h3>
+  <div class="grid g3">
+    <div class="panel"><h4>Severity</h4><p class="small" style="margin:0">How bad is the impact now, and how bad could it get?</p></div>
+    <div class="panel"><h4>Urgency</h4><p class="small" style="margin:0">How fast is it getting worse? Is there a deadline?</p></div>
+    <div class="panel"><h4>Scope</h4><p class="small" style="margin:0">One team, one client, or several? Is it a repeat?</p></div>
+    <div class="panel"><h4>Harm</h4><p class="small" style="margin:0">Is there a data, compliance, contractual or reputational risk?</p></div>
+    <div class="panel"><h4>Continuity</h4><p class="small" style="margin:0">Could service delivery stop or fall over?</p></div>
+    <div class="panel" style="background:var(--warnBg)"><h4>Unknowns</h4><p class="small" style="margin:0">What don't you know yet? Missing facts aren't a reason to wait.</p></div>
+  </div>
+
+  <h3>Four levels of escalation</h3>
+  <div class="lvl" aria-hidden="true">
+    <div style="background:var(--sage);height:70px">L1</div><div style="background:var(--aqua);height:100px">L2</div>
+    <div style="background:var(--teal);height:130px">L3</div><div style="background:var(--coral);height:160px">L4</div>
+  </div>
+  <div class="tabs" role="tablist" id="lvlTabs"></div>
+  <div class="panel" id="lvlPanel" role="tabpanel" aria-live="polite"></div>
+  <p class="small muted">Your organisation's own severity matrix and incident procedures always take precedence over this guide. Data, privacy, compliance and safety incidents follow the designated incident route straight away.</p>
+
+  <h3>Try it: resolve, monitor or escalate?</h3>
+  <p>Three situations with incomplete information. Make your call, then see what changes when new facts arrive.</p>
+  <div id="rme"></div>
+
+  <h3>Try it: size these escalations</h3>
+  <div class="panel" id="sorter"></div>
+  <button class="btn" id="sortCheck">Check my answers</button>
+  <div class="fb" id="sortFb"></div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ STEER ============ -->
+<section class="mod" id="mSteer" data-title="Leading with STEER" data-time="20 min">
+  <p class="kicker">Section 4</p>
+  <h2>Leading with STEER</h2>
+  <p class="lead">STEER gives you five steps to take control of an escalation, from the first hour to the review afterwards. Select each letter.</p>
+  <div class="steer" id="steerBtns"></div>
+  <div class="panel steerDetail" id="steerDetail" aria-live="polite"></div>
+  <div class="panel" style="background:var(--warnBg)"><p style="margin:0"><b>Your style shapes how you STEER.</b> Rescuers tend to jump straight to Execute. Protectors are strong at Take ownership but can skip Engaging the client. Negotiators shine at Stabilise and communicating. Analysts excel at Review. STEER makes sure no step gets skipped.</p></div>
+
+  <h3>Scenario: the escalation lands on your desk</h3>
+  <p>Choose the line of business closest to yours. You'll make three decisions, and each one changes what happens next. You can replay it with a different line of business.</p>
+  <div id="branch"></div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ CLIENT COMMS ============ -->
+<section class="mod" id="mClient" data-title="Communicating with clients" data-time="12 min">
+  <p class="kicker">Section 5</p>
+  <h2>Communicating with clients</h2>
+  <p class="lead">Clients forgive slow progress far more easily than silence or vagueness. Specific details calm people down.</p>
+
+  <h3>Build your holding statement</h3>
+  <p>Use this for your first message after an escalation, even before you know the root cause. It has four parts: Acknowledge, Own, Act, Next update.</p>
+  <div class="grid g2">
+    <div>
+      <label for="hsIssue">The issue</label><input type="text" id="hsIssue" value="the delay in daily processing">
+      <label for="hsImpact">The impact on the client</label><input type="text" id="hsImpact" value="your month-end reporting">
+      <label for="hsOwner">Recovery owner</label><input type="text" id="hsOwner" value="Priya">
+      <label for="hsAction">First action already taken</label><input type="text" id="hsAction" value="added capacity on the oldest items">
+      <label for="hsTime">Next update time</label><input type="text" id="hsTime" value="3 pm">
+      <label for="hsTz">Client time zone</label>
+      <select id="hsTz"><option>EST</option><option>CST</option><option>MST</option><option>PST</option><option>IST</option><option>PHT</option><option>SLT</option></select>
+    </div>
+    <div>
+      <label>Preview</label>
+      <div class="preview" id="hsPreview" aria-live="polite"></div>
+      <p><button class="btn ghost" id="hsCopy">Copy text</button> <span class="small muted" id="hsCopied"></span></p>
+    </div>
+  </div>
+
+  <h3>Which phrase builds trust?</h3>
+  <p>Choose the stronger option in each pair.</p>
+  <div id="swaps"></div>
+
+  <h3>Set an update rhythm, and keep it</h3>
+  <div class="grid g3">
+    <div class="panel"><h4>L2</h4><p class="small" style="margin:0">A daily update until it's stable.</p></div>
+    <div class="panel"><h4>L3</h4><p class="small" style="margin:0">Twice a day, with a named contact.</p></div>
+    <div class="panel"><h4>L4</h4><p class="small" style="margin:0">Agreed slots, executive briefings and a written log.</p></div>
+  </div>
+  <p>Every update covers <b>status against plan, what changed, risks and the next update time</b>. If you have nothing new to say, send the update anyway, because a missed update can become a new escalation.</p>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ UPWARD COMMS ============ -->
+<section class="mod" id="mUp" data-title="Escalating to your leaders" data-time="12 min">
+  <p class="kicker">Section 6</p>
+  <h2>Escalating to your own leaders</h2>
+  <p class="lead">Your CEO, Delivery Head or Director has very little time and needs to make a decision. A good upward escalation gives them everything in under 90 seconds, and keeps the ownership with you.</p>
+
+  <h3>Fix this escalation</h3>
+  <div class="vague">"Hi, we have a serious issue with the process for one of our clients. The team is looking into it. Please advise."</div>
+  <p>Which of these is missing from the message? Select all that apply.</p>
+  <div class="checks" id="missing"></div>
+  <button class="btn" id="missCheck">Check</button>
+  <div class="fb" id="missFb"></div>
+
+  <h3>The decision-ready update</h3>
+  <div class="grid g2">
+    <div class="panel"><h4>1. What happened</h4><p class="small" style="margin:0">The facts, and when it started.</p></div>
+    <div class="panel"><h4>2. Impact</h4><p class="small" style="margin:0">Who and what is affected now, and what could be next.</p></div>
+    <div class="panel"><h4>3. Action taken</h4><p class="small" style="margin:0">What you've already done to contain it.</p></div>
+    <div class="panel"><h4>4. Known and unknown</h4><p class="small" style="margin:0">What's confirmed, and what you're still checking.</p></div>
+    <div class="panel"><h4>5. Recommendation and decision needed</h4><p class="small" style="margin:0">Your options and recommendation, the decision you need, from whom and by when.</p></div>
+    <div class="panel"><h4>6. Owner and next update</h4><p class="small" style="margin:0">Who owns the next step and when they'll hear from you again.</p></div>
+  </div>
+
+  <h3>Build your 90-second escalation</h3>
+  <p>Write one for a real or recent situation. Keep each line short.</p>
+  <div class="grid g2">
+    <div id="upFields"></div>
+    <div><label>Preview</label><div class="preview" id="upPreview" aria-live="polite"></div>
+      <p class="small muted" id="upCount"></p>
+      <p><button class="btn ghost" id="upCopy">Copy text</button> <span class="small muted" id="upCopied"></span></p></div>
+  </div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ REGIONS ============ -->
+<section class="mod" id="mRegions" data-title="Across regions and time zones" data-time="15 min">
+  <p class="kicker">Section 7</p>
+  <h2>Across regions and time zones</h2>
+  <p class="lead">Our clients are mostly in the US, and our teams work from India, the Philippines and Sri Lanka. Escalations grow in the gaps between time zones, between shifts, and in the time it takes for bad news to reach you.</p>
+
+  <h3>The overnight gap</h3>
+  <div class="tz">
+    <div><span class="small muted">Chennai (IST)</span><b>9:00 am</b><span class="small">Your team logs on</span></div>
+    <div><span class="small muted">Colombo (SLT)</span><b>9:00 am</b><span class="small">Same time as India</span></div>
+    <div><span class="small muted">Manila (PHT)</span><b>11:30 am</b><span class="small">Two and a half hours ahead</span></div>
+    <div class="night"><span class="small">New York (ET)</span><b>11:30 pm</b><span class="small">The night before</span></div>
+  </div>
+  <p class="small muted">During US daylight saving time. In US winter months, New York is 10:30 pm.</p>
+  <div class="panel"><p style="margin:0">A US client who emails at 2 pm Eastern may not hear back until it's almost midnight their time. To them, that silence looks like nobody cares. <b>Agree who acknowledges escalations during the client's working day.</b></p></div>
+
+  <h3>Patterns to watch for</h3>
+  <p>These are tendencies people often describe, not rules about people. Every individual is different. Select a card to see the leader move.</p>
+  <div class="grid g4" id="flips"></div>
+
+  <h3>The handoff gap</h3>
+  <div class="scene"><p style="margin:0;font-size:19px">A high-priority issue is raised near the end of one region's shift. The next team assumes the previous team has told the client. The previous team assumes the next team has taken ownership. Six hours later, the client is still waiting.</p></div>
+  <p style="margin-top:16px">Which of these are the minimum for a safe handoff? Select all that apply.</p>
+  <div class="checks" id="handoff"></div>
+  <button class="btn" id="hoCheck">Check</button>
+  <div class="fb" id="hoFb"></div>
+  <div id="hoFollow"></div>
+
+  <h3>Make it safe to escalate early</h3>
+  <div class="grid g2">
+    <div class="panel"><h4>Set red lines in advance</h4><p class="small" style="margin:0">Agree which triggers must be escalated, by when and to whom, so nobody makes that call alone.</p></div>
+    <div class="panel"><h4>Thank the messenger</h4><p class="small" style="margin:0">React to the news, not the person. Your first reaction decides whether you hear early next time.</p></div>
+    <div class="panel"><h4>Reward amber, not just green</h4><p class="small" style="margin:0">Praise early warnings in public, even when they turn out to be minor.</p></div>
+    <div class="panel"><h4>Fix first, review later</h4><p class="small" style="margin:0">Keep solving the problem separate from reviewing what went wrong. Blame stops people speaking up.</p></div>
+  </div>
+  <label for="reflect1">Reflect: think of the last time someone brought you bad news. What did your reaction teach them about telling you next time?</label>
+  <textarea id="reflect1" placeholder="Only you can see this. It isn't saved or submitted."></textarea>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ PRESSURE TEST ============ -->
+<section class="mod" id="mPressure" data-title="When it gets worse" data-time="8 min">
+  <p class="kicker">Section 8</p>
+  <h2>When it gets worse</h2>
+  <p class="lead">Escalations rarely follow the plan. The first fix fails, stakeholders disagree, or someone more senior pushes for a shortcut. This is where leadership maturity shows.</p>
+  <div id="pressure"></div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ PREVENT ============ -->
+<section class="mod" id="mPrevent" data-title="Prevent the next escalation" data-time="12 min">
+  <p class="kicker">Section 9</p>
+  <h2>Prevent the next escalation</h2>
+  <p class="lead">The best senior leaders judge themselves on the escalations that never happen. An escalation isn't over when the client is calm. It's over when the cause is fixed and the client has heard what changed.</p>
+
+  <h3>Keep asking why</h3>
+  <p>The RCA says: <b>"Agent keyed the wrong code."</b> If a person's name is your root cause, you haven't finished. Select "Ask why" to dig deeper.</p>
+  <div class="why" id="whys"></div>
+  <p><button class="btn" id="whyBtn">Ask why</button></p>
+
+  <h3>Find the patterns</h3>
+  <p>Here's one quarter's escalation log from across several lines of business.</p>
+  <div style="overflow-x:auto"><table class="logt" id="logTable"></table></div>
+  <div id="patternQs"></div>
+
+  <h3>What senior leaders put in place</h3>
+  <div class="grid g2">
+    <div class="panel"><h4>Watch leading indicators</h4><ul class="small" style="margin:0;padding-left:20px"><li>Backlog age and trend, not just volume</li><li>SLA or TAT dipping three days in a row</li><li>Share of new hires on live work</li><li>Client tone in calls and emails</li><li>Client or vendor changes in the last 30 days</li></ul></div>
+    <div class="panel"><h4>Run escalation governance</h4><ul class="small" style="margin:0;padding-left:20px"><li>A weekly review across towers, not within one</li><li>Repeat escalation rate as your headline measure</li><li>Time to acknowledge, in the client's time zone</li><li>Preventive actions closed on time</li></ul></div>
+  </div>
+  <div class="panel" style="background:var(--warnBg)"><p style="margin:0"><b>A rise in escalations isn't automatically bad news.</b> When people feel safe to raise issues early, you may see more escalations at first, and fewer serious ones later. Watch repeats and severity, not just the count.</p></div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ ASSESSMENT ============ -->
+<section class="mod" id="mAssess" data-title="Final assessment" data-time="12 min">
+  <p class="kicker">Section 10</p>
+  <h2>Final assessment</h2>
+  <p class="lead">Ten scenario questions covering the whole course. The pass mark is 80% (8 out of 10). You'll see feedback after each answer, and you can retake it.</p>
+  <div id="kc"></div>
+  <div class="fb info" id="kcScore"></div>
+  <h3>How confident are you now?</h3>
+  <div class="panel"><div class="scaleHead" aria-hidden="true"><span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div><div id="confPost"></div></div>
+  <div class="panel" id="confCompare" hidden></div>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><button class="btn next" data-next>Continue</button></div>
+</section>
+
+<!-- ============ PLAN ============ -->
+<section class="mod" id="mPlan" data-title="My 30-day plan" data-time="5 min">
+  <p class="kicker noprintsec">Section 11</p>
+  <h2>My 30-day escalation plan</h2>
+  <p class="lead">Turn what you've learned into a few specific commitments. Print it or save it as a PDF, and share it with your manager or an accountability partner.</p>
+  <div class="panel">
+    <label for="pStyle">My escalation style, and what I'll add to it</label><textarea id="pStyle"></textarea>
+    <label for="p1">When an escalation reaches me, the first thing I'll do differently is...</label><textarea id="p1"></textarea>
+    <label for="p2">The habit I'll stop is...</label><textarea id="p2"></textarea>
+    <label for="p3">To make it safe for my team to escalate early, I will...</label><textarea id="p3"></textarea>
+    <label for="p4">The repeat pattern I'll tackle in the next 30 days is...</label><textarea id="p4"></textarea>
+    <label for="p5">I'll share this plan with (name) by (date)</label><input type="text" id="p5">
+  </div>
+  <p class="noprint small muted">Your plan isn't saved when you close this page, so print it or save it as a PDF first.</p>
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><span><button class="btn ghost" id="printPlan">Print or save as PDF</button> <button class="btn next" data-next>Continue</button></span></div>
+</section>
+
+<!-- ============ TOOLKIT ============ -->
+<section class="mod toolkit" id="mTools" data-title="Escalation toolkit" data-time="Keep for reference">
+  <p class="kicker">Your toolkit</p>
+  <h2>Escalation toolkit</h2>
+  <p class="lead">Quick-reference tools to use the next time an escalation lands. Print them or save them as a PDF.</p>
+
+  <div class="tool"><h4>STEER at a glance</h4>
+    <table><tr><td>S: Stabilise (first hour)</td><td>Contain the impact. Send a holding statement within the client's working hours.</td></tr>
+    <tr><td>T: Take ownership (first hour)</td><td>Own the outcome visibly. No blame, even if the cause sits elsewhere.</td></tr>
+    <tr><td>E: Engage (first day)</td><td>Client sponsor, your own leadership (before the client calls them), your team, and partner teams with a clear ask.</td></tr>
+    <tr><td>E: Execute and communicate (until resolved)</td><td>Run the recovery plan on a set update rhythm: L2 daily, L3 twice daily, L4 agreed slots.</td></tr>
+    <tr><td>R: Review and prevent (after)</td><td>Root cause (keep asking why), corrective and preventive actions with owners, pattern check, close the loop with the client.</td></tr></table></div>
+
+  <div class="tool"><h4>Client holding statement</h4>
+    <table><tr><td>Acknowledge</td><td>"We've seen your note on [issue] and understand the impact on [their business]."</td></tr>
+    <tr><td>Own</td><td>"This is ours to fix."</td></tr>
+    <tr><td>Act</td><td>"[Name] is leading the recovery, and we've already [first action]."</td></tr>
+    <tr><td>Next update</td><td>"You'll hear from me by [time and client time zone] with what we've found and the recovery plan."</td></tr></table></div>
+
+  <div class="tool"><h4>Decision-ready update for your leaders</h4>
+    <table><tr><td>What happened</td><td></td></tr><tr><td>Impact (now and potential)</td><td></td></tr><tr><td>Action taken</td><td></td></tr>
+    <tr><td>Known and unknown</td><td></td></tr><tr><td>Options and recommendation</td><td></td></tr><tr><td>Decision needed, from whom, by when</td><td></td></tr><tr><td>Owner and next update</td><td></td></tr></table></div>
+
+  <div class="tool"><h4>Cross-region handoff checklist</h4>
+    <ul><li>Named owner on the incoming shift</li><li>Current impact on the client</li><li>Actions completed so far</li><li>Open risks and anything that's getting worse</li>
+    <li>Next checkpoint, in the client's time zone</li><li>Who to escalate to, and how to reach them</li><li><b>Explicit acceptance:</b> the incoming owner confirms "I've got it." No confirmation means no handoff.</li></ul></div>
+
+  <div class="tool"><h4>Language that builds trust</h4>
+    <table><tr><td>Instead of "Don't worry"</td><td>"Here's what we're doing to protect your [outcome]."</td></tr>
+    <tr><td>Instead of "ASAP"</td><td>A specific time and time zone.</td></tr>
+    <tr><td>Instead of "It wasn't us, the vendor..."</td><td>"A dependency failed. Managing it is our responsibility."</td></tr>
+    <tr><td>Instead of "The team made a mistake"</td><td>"We missed this, and I own it."</td></tr></table></div>
+
+  <div class="foot"><button class="btn ghost" data-prev>Back</button><span><button class="btn ghost" id="printTools">Print or save toolkit</button> <button class="btn next" id="finishBtn">Finish course</button></span></div>
+  <div class="fb good" id="finishMsg"></div>
+</section>
+
+</main>
+</div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const mods = $$(".mod");
+const done = new Set();
+let cur = 0;
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* ---------- Navigation ---------- */
+const navList = $("#navList");
+mods.forEach((m, i) => {
+  const li = document.createElement("li");
+  const last = i === mods.length - 1;
+  li.innerHTML = `<button data-go="${i}"><span class="dot">${i === 0 ? "★" : last ? "+" : i}</span><span class="t">${m.dataset.title}<span class="m">${m.dataset.time}</span></span></button>`;
+  navList.appendChild(li);
+});
+function show(i) {
+  cur = i;
+  mods.forEach((m, k) => m.classList.toggle("active", k === i));
+  $$("#navList button").forEach((b, k) => b.setAttribute("aria-current", k === i ? "true" : "false"));
+  window.scrollTo({ top: 0 }); $("#main").focus({ preventScroll: true });
+  $("#side").classList.remove("open"); $("#menuBtn").setAttribute("aria-expanded", "false");
+}
+function complete(i) {
+  done.add(i); $$("#navList li")[i].classList.add("done");
+  $("#progBar").style.width = Math.round(done.size / mods.length * 100) + "%";
+  $("#progLabel").textContent = `${done.size} of ${mods.length} sections complete`;
+}
+$("#progLabel").textContent = `0 of ${mods.length} sections complete`;
+navList.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) show(+b.dataset.go); });
+$$("[data-next]").forEach(b => b.addEventListener("click", () => { complete(cur); show(Math.min(cur + 1, mods.length - 1)); }));
+$$("[data-prev]").forEach(b => b.addEventListener("click", () => show(Math.max(cur - 1, 0))));
+$("#menuBtn").addEventListener("click", () => { const o = $("#side").classList.toggle("open"); $("#menuBtn").setAttribute("aria-expanded", o); });
+
+/* ---------- Confidence ratings ---------- */
+const CONF = ["Deciding whether to resolve, monitor or escalate", "Leading the first hour of a serious escalation", "Handling an upset client executive",
+  "Giving my own leaders a clear, decision-ready update", "Managing handoffs and updates across time zones", "Preventing the same escalation from happening again"];
+const conf = { pre: Array(CONF.length).fill(0), post: Array(CONF.length).fill(0) };
+function renderScale(el, key) {
+  $(el).innerHTML = CONF.map((c, i) => `<div class="scale" role="group" aria-label="${c}"><span class="lab">${c}</span>${[1, 2, 3, 4, 5].map(v => `<button data-i="${i}" data-v="${v}" aria-pressed="false" aria-label="${v}">${v}</button>`).join("")}</div>`).join("");
+  $$(el + " button").forEach(b => b.addEventListener("click", () => {
+    const i = +b.dataset.i; conf[key][i] = +b.dataset.v;
+    $$(`${el} [data-i="${i}"]`).forEach(x => x.setAttribute("aria-pressed", x === b));
+    if (key === "post") compareConf();
+  }));
+}
+function compareConf() {
+  if (conf.post.some(v => !v)) return;
+  const box = $("#confCompare"); box.hidden = false;
+  const hasPre = conf.pre.every(v => v);
+  box.innerHTML = `<h4>Your confidence, before and after</h4>${hasPre ? `<div class="compare"><span></span><b>Before</b><b>After</b></div>` +
+    CONF.map((c, i) => `<div class="compare"><span>${c}</span><b>${conf.pre[i]}</b><b style="color:var(--good)">${conf.post[i]}</b></div>`).join("") +
+    `<p class="small muted" style="margin:10px 0 0">Note the area where you feel least confident. Make it part of your 30-day plan.</p>`
+    : `<p class="small" style="margin:0">You skipped the starting rating, so there's nothing to compare. Note the area where you feel least confident and make it part of your 30-day plan.</p>`}`;
+}
+renderScale("#confPre", "pre"); renderScale("#confPost", "post");
+
+/* ---------- Style profile ---------- */
+const STYLES = {
+  R: { name: "Rescuer", tag: "Jumps in and fixes", color: "var(--coral)",
+    strength: "Speed and hands-on credibility. Your team sees you in the trenches, and things move fast when you're involved.",
+    watch: "Your team can come to depend on you, and you may fix symptoms before the cause is understood. At senior level, taking over can undermine the Managers who should be leading.",
+    leads: "Execute", stretch: "Stabilise and Review",
+    flex: "Before you jump in, ask yourself: \"Who on my team should own this, and what do they need from me?\" Send the holding statement first, then fix." },
+  P: { name: "Protector", tag: "Shields the team", color: "var(--blue)",
+    strength: "Your team feels safe and works without panic. People trust you, and they're more likely to tell you the truth.",
+    watch: "The client can feel unheard while you defend the team. The team may also never see the real impact on the client, so the lesson doesn't land.",
+    leads: "Take ownership", stretch: "Engage with the client",
+    flex: "Pass on the client's reality without passing on the panic. Share the impact with the team, and own the outcome with the client." },
+  N: { name: "Negotiator", tag: "Manages the relationship", color: "var(--sage)",
+    strength: "You calm clients, reset expectations and buy the time needed to fix things. Relationships often come out of an escalation stronger.",
+    watch: "You may promise more than the team can deliver, and the root cause can get less attention once the client is calm.",
+    leads: "Stabilise and communicate", stretch: "Review and prevent",
+    flex: "Before any commitment, check with the person who will deliver it. Don't treat the escalation as closed until the preventive action is closed too." },
+  A: { name: "Analyst", tag: "Finds the root cause", color: "var(--teal)",
+    strength: "Your fixes are accurate and your RCAs are credible. Clients who value data trust you, and problems stay fixed.",
+    watch: "While you gather facts, the client may experience silence. People can read you as slow or detached when they're upset.",
+    leads: "Review and prevent", stretch: "Stabilise",
+    flex: "Respond before you analyse. A holding statement buys you the time to investigate properly without the client feeling ignored." }
+};
+const PROFILE = [
+  ["A client escalation lands at 7 pm your time. Your first instinct is to...",
+    [["A", "Pull the data and timeline so you know what actually happened before you respond"], ["R", "Get on a call with the team lead and start working on the fix tonight"],
+     ["N", "Call the client to understand what matters most to them and agree a timeline"], ["P", "Tell the team you've got their back and take over client contact yourself"]]],
+  ["Your Manager is handling an L2 escalation, but the client is getting impatient. You...",
+    [["P", "Let the Manager keep leading, and keep pressure from above off them"], ["N", "Join the next client call to reset expectations together"],
+     ["R", "Step in and take over so it gets resolved faster"], ["A", "Review the Manager's plan and root-cause logic before the next update"]]],
+  ["In a tense client call, your attention goes mostly to...",
+    [["N", "The client's mood, and what will rebuild their confidence"], ["A", "Getting the facts right and not saying anything inaccurate"],
+     ["P", "Making sure your team isn't unfairly blamed"], ["R", "What can be done right now to fix it"]]],
+  ["Once the escalation is over, you put most energy into...",
+    [["R", "Making sure the issue and any backlog are fully cleared"], ["A", "The root cause analysis and preventive actions"],
+     ["N", "A follow-up with the client to repair the relationship"], ["P", "Checking in on the people who carried the pressure"]]],
+  ["A colleague would most likely describe you in an escalation as...",
+    [["A", "\"Thorough. Gets to the bottom of it.\""], ["P", "\"Loyal. Stands up for the team.\""],
+     ["R", "\"Hands-on. In the trenches with us.\""], ["N", "\"Calm. Great with clients.\""]]],
+  ["You find out a team kept a problem quiet for days. Your first reaction is to...",
+    [["P", "Understand what pressure made them feel they couldn't say anything"], ["R", "Get it fixed before anything else"],
+     ["A", "Work out exactly when and where the process broke down"], ["N", "Think about how to explain the delay to the client"]]],
+  ["Under real time pressure, you're most likely to...",
+    [["N", "Negotiate more time with the client"], ["R", "Do it yourself rather than delegate"],
+     ["A", "Slow down to make sure you have the right answer"], ["P", "Take on extra work yourself so the team isn't overloaded"]]],
+  ["What frustrates you most during an escalation is...",
+    [["R", "Discussions that delay action"], ["N", "A client who feels nobody is listening"],
+     ["P", "People looking for someone to blame"], ["A", "Decisions made on guesswork"]]],
+  ["A client asks for an exact fix date, and you're not sure yet. You're most likely to...",
+    [["N", "Offer a date with enough buffer to keep them confident"], ["A", "Say you'll confirm a date once the analysis is complete"],
+     ["P", "Check with the team first so they aren't put under unrealistic pressure"], ["R", "Commit to the earliest date and drive the team to hit it"]]],
+  ["Your Director asks for an update on a live escalation. You naturally lead with...",
+    [["A", "What you've found about the cause"], ["P", "How the team is coping and what support they need"],
+     ["R", "What's being done right now and how fast it's moving"], ["N", "How the client is feeling and where the relationship stands"]]],
+  ["A peer team's mistake has caused your escalation. Your instinct is to...",
+    [["P", "Make sure your own team isn't blamed for it"], ["N", "Keep the client reassured while the teams sort it out"],
+     ["A", "Map out exactly where the handoff between the teams broke"], ["R", "Lend some of your own people to help fix it"]]],
+  ["The escalation you'd find hardest to handle is one where...",
+    [["R", "There's nothing you can personally do to fix it"], ["P", "Your team is being criticised unfairly"],
+     ["N", "The client won't engage or talk to you"], ["A", "The facts keep changing and nobody knows the cause"]]]
+];
+const answers = new Array(PROFILE.length).fill(null);
+let pIdx = 0;
+function renderProfile() {
+  const [stem, opts] = PROFILE[pIdx];
+  $("#profileWrap").innerHTML = `<div class="counter">Situation ${pIdx + 1} of ${PROFILE.length}</div>
+    <div class="steps">${PROFILE.map((_, i) => `<i class="${i <= pIdx ? "on" : ""}"></i>`).join("")}</div>
+    <div class="q"><div class="stem" id="pStem">${stem}</div><div class="opts" role="group" aria-labelledby="pStem">
+    ${opts.map(([k, t]) => `<button class="opt" data-k="${k}" aria-pressed="${answers[pIdx] === k}">${t}</button>`).join("")}</div></div>
+    <div style="display:flex;gap:10px;justify-content:space-between">
+      <button class="btn ghost" id="pBack" ${pIdx === 0 ? "disabled" : ""}>Previous</button>
+      <button class="btn" id="pNext" ${answers[pIdx] ? "" : "disabled"}>${pIdx === PROFILE.length - 1 ? "See my profile" : "Next"}</button></div>`;
+  $$("#profileWrap .opt").forEach(b => b.addEventListener("click", () => {
+    answers[pIdx] = b.dataset.k;
+    $$("#profileWrap .opt").forEach(x => x.setAttribute("aria-pressed", x === b)); $("#pNext").disabled = false;
+  }));
+  $("#pBack").addEventListener("click", () => { pIdx--; renderProfile(); });
+  $("#pNext").addEventListener("click", () => { if (pIdx < PROFILE.length - 1) { pIdx++; renderProfile(); } else showProfile(); });
+}
+function showProfile() {
+  const c = { R: 0, P: 0, N: 0, A: 0 }; answers.forEach(a => c[a]++);
+  const sorted = Object.keys(c).sort((a, b) => c[b] - c[a]);
+  const top = sorted[0], second = sorted[1], blend = c[top] === c[second], s = STYLES[top];
+  const label = blend ? s.name + " and " + STYLES[second].name : s.name;
+  $("#profileWrap").hidden = true;
+  const r = $("#profileResult"); r.hidden = false;
+  r.innerHTML = `<div class="styleCard" style="background:${s.color}">
+      <p style="margin:0;opacity:.9">Your default style${blend ? " (a blend)" : ""}</p>
+      <h4>${label}</h4><p>${s.tag}${blend ? " | " + STYLES[second].tag : ""}</p></div>
+    <div class="bars">${["R", "P", "N", "A"].map(k => `<div class="barRow"><span>${STYLES[k].name}</span><div class="barTrack"><i style="width:${c[k] / PROFILE.length * 100}%;background:${STYLES[k].color}"></i></div><span>${c[k]}</span></div>`).join("")}</div>
+    <div class="grid g2">
+      <div class="panel"><h4>Your strength</h4><p class="small" style="margin:0">${s.strength}</p></div>
+      <div class="panel"><h4>Watch out for</h4><p class="small" style="margin:0">${s.watch}</p></div>
+      <div class="panel"><h4>In STEER terms</h4><p class="small" style="margin:0">You naturally lead with <b>${s.leads}</b>. Your stretch is <b>${s.stretch}</b>. You'll learn STEER in Section 4.</p></div>
+      <div class="panel"><h4>Your flex move</h4><p class="small" style="margin:0">${s.flex}</p></div>
+    </div>
+    ${blend ? `<p class="small muted">You scored equally on ${s.name} and ${STYLES[second].name}. Notice which one shows up when the pressure is highest.</p>` : ""}
+    <p class="small muted">This profile shows where you tend to go first under pressure, not who you are. Every style is valuable. Strong leaders know their default and add what's missing.</p>
+    <button class="btn ghost" id="pRetake">Retake the profile</button>`;
+  if (!$("#pStyle").value) $("#pStyle").value = label + ": ";
+  $("#pRetake").addEventListener("click", () => { answers.fill(null); pIdx = 0; r.hidden = true; $("#profileWrap").hidden = false; renderProfile(); });
+}
+renderProfile();
+
+/* ---------- Leadership moment ---------- */
+const SHIFT = [["Solved the ticket", "Solve the pattern behind it"], ["Worked the problem", "Work the room: client, leadership and other teams"],
+  ["Shielded the team from the client", "Connect the team to the client's reality"], ["Reported once it was fixed", "Communicate before anyone has to ask"],
+  ["Asked who made the mistake", "Ask what allowed it to happen"]];
+$("#shiftList").innerHTML = `<div class="compare" style="grid-template-columns:1fr 1fr;font-weight:700"><span class="muted">When you managed a team, you...</span><span>As a senior leader, you...</span></div>` +
+  SHIFT.map(s => `<div class="compare" style="grid-template-columns:1fr 1fr"><span class="muted">${s[0]}</span><span><b style="text-align:left">${s[1]}</b></span></div>`).join("");
+const hiddenCosts = ["Trust and renewal risk", "Senior leadership hours lost to firefighting", "Team morale, burnout and attrition", "Reputation that travels to other clients", "Improvement work that never gets done"];
+hiddenCosts.forEach((t, i) => {
+  const b = document.createElement("button"); b.className = "chip hidden"; b.textContent = t; b.setAttribute("aria-label", "Reveal hidden cost " + (i + 1));
+  b.addEventListener("click", () => { b.classList.remove("hidden"); b.removeAttribute("aria-label"); });
+  $("#iceChips").appendChild(b);
+});
+
+/* ---------- Levels ---------- */
+const LEVELS = [
+  { k: "L1", n: "Operational", c: "var(--sage)", what: "A one-off error or delay. Client contact is routine.", lead: "TL or AM leads", you: "Stay informed. Don't step in.",
+    ex: "Support: one customer complaint handled within the queue. Back-office: one batch processed late, flagged in a routine email." },
+  { k: "L2", n: "Service", c: "var(--aqua)", what: "An SLA, TAT or accuracy breach the client has noticed.", lead: "Manager leads", you: "Coach the plan and check the client message.",
+    ex: "Back-office: SLA at 92% against 98% for three days. IT: ticket resolution times slipping for a week." },
+  { k: "L3", n: "Relationship", c: "var(--teal)", what: "Client leadership is involved, a breach has repeated, or there's commercial risk.", lead: "Senior Manager leads", you: "Own it and front it with the client.",
+    ex: "Support: CSAT down 15 points and the client's Head of CX asks for a leadership call. RCM: client CFO escalates rising AR days." },
+  { k: "L4", n: "Critical", c: "var(--coral)", what: "Contract, compliance, data or reputational risk.", lead: "Director or Delivery Head leads", you: "Govern, sponsor and brief executives. Make sure the designated incident route is followed.",
+    ex: "Any LOB: client data sent to the wrong recipient, a contractual penalty, or a threat to exit." }
+];
+LEVELS.forEach((l, i) => {
+  const b = document.createElement("button"); b.setAttribute("role", "tab"); b.textContent = `${l.k} ${l.n}`;
+  b.addEventListener("click", () => showLvl(i)); $("#lvlTabs").appendChild(b);
+});
+function showLvl(i) {
+  const l = LEVELS[i];
+  $$("#lvlTabs button").forEach((b, k) => b.setAttribute("aria-selected", k === i));
+  $("#lvlPanel").innerHTML = `<h4 style="color:${l.c}">${l.k} ${l.n}</h4><p style="margin:4px 0">${l.what}</p>
+    <p style="margin:4px 0"><b>${l.lead}.</b> Your role as a senior leader: ${l.you}</p><p class="small muted" style="margin:8px 0 0">${l.ex}</p>`;
+}
+showLvl(0);
+
+/* ---------- Resolve / Monitor / Escalate ---------- */
+const RME = [
+  { s: "A queue's turnaround time has slipped from 24 to 30 hours over two days. The team lead says a training batch is off the floor and it'll recover by Friday.",
+    best1: "Monitor", f1: { Resolve: "Reasonable, but you'd want a checkpoint. A two-day slide with a known cause is worth watching, not ignoring.", Monitor: "A sensible call. The cause is known and temporary. Set a checkpoint so you're not relying on hope.", Escalate: "Probably too early. Escalating every dip teaches the team to wait for you. Set a checkpoint instead." },
+    nf: "New facts: the volume forecast shows a 20% spike next week, and the client's month-end close is on Monday.",
+    best2: "Escalate", f2: { Resolve: "The trend plus a volume spike and a client deadline means this won't fix itself. It needs a plan above team level.", Monitor: "Watching won't be enough now. The deadline and spike turn a dip into a likely breach.", Escalate: "Right. Ask your Manager to lead a recovery plan, and give the client an early heads-up before month-end." } },
+  { s: "A team member thinks a file containing personal data may have gone to the wrong client contact. It isn't confirmed yet.",
+    best1: "Escalate", f1: { Resolve: "Not this one. Possible data incidents must go through the designated incident route straight away, even before they're confirmed.", Monitor: "Waiting for confirmation costs time you may not have. Data incidents follow the designated route straight away.", Escalate: "Correct. Raise it through the designated incident route now. Missing facts are not a reason to wait." },
+    nf: "New facts: it's confirmed the file was opened. The client's account lead is asking you for an explanation right now.",
+    best2: "Escalate", f2: { Resolve: "This is now a confirmed incident. Stay inside the designated process, and don't try to handle it alone.", Monitor: "The incident process needs to move faster now, not slower.", Escalate: "Right. Keep it in the designated process, support the incident team and avoid speculating with the client until the facts are established." } },
+  { s: "A client's operations lead mentions one late report on a routine call. It's the first miss in six months.",
+    best1: "Resolve", f1: { Resolve: "Good call. A first miss after six clean months is something to fix and acknowledge at team level.", Monitor: "Fine, but you can simply fix it and acknowledge it with the client. No need to keep it open.", Escalate: "Too much for a first miss. Escalating this would send the wrong signal to your team." },
+    nf: "New facts: you find out two other towers have had the same complaint from this client this month.",
+    best2: "Escalate", f2: { Resolve: "Fixing your instance isn't enough now. Three towers with the same issue is a pattern that needs a leadership view.", Monitor: "Watching a pattern doesn't change it. This needs raising as a pattern, with the evidence.", Escalate: "Right. Escalate the pattern, not another isolated incident. Bring the evidence from all three towers and suggest a joint fix." } }
+];
+$("#rme").innerHTML = RME.map((r, i) => `<div class="panel q"><div class="counter">Situation ${i + 1} of ${RME.length}</div><div class="stem">${r.s}</div>
+  <div class="swap" style="grid-template-columns:repeat(3,1fr)">${["Resolve", "Monitor", "Escalate"].map(o => `<button class="opt" data-r="${i}" data-st="1" data-o="${o}">${o}</button>`).join("")}</div>
+  <div class="fb" id="rfb1-${i}"></div><div class="newfact" id="rnf-${i}"><b>${r.nf}</b><p style="margin:6px 0 0">What's your call now?</p></div>
+  <div class="swap" id="r2-${i}" style="grid-template-columns:repeat(3,1fr);display:none">${["Resolve", "Monitor", "Escalate"].map(o => `<button class="opt" data-r="${i}" data-st="2" data-o="${o}">${o}</button>`).join("")}</div>
+  <div class="fb" id="rfb2-${i}"></div></div>`).join("");
+$$("#rme .opt").forEach(b => b.addEventListener("click", () => {
+  const i = +b.dataset.r, st = b.dataset.st, r = RME[i], fb = $(`#rfb${st}-${i}`); if (fb.classList.contains("show")) return;
+  const best = st === "1" ? r.best1 : r.best2, ok = b.dataset.o === best;
+  b.classList.add(ok ? "correct" : "wrong"); b.setAttribute("aria-pressed", "true");
+  fb.className = "fb show " + (ok ? "good" : "info"); fb.innerHTML = (st === "1" ? r.f1 : r.f2)[b.dataset.o];
+  if (st === "1") { $("#rnf-" + i).classList.add("show"); $("#r2-" + i).style.display = "grid"; }
+}));
+
+/* ---------- Sorter ---------- */
+const SORT = [["One record is processed late, and the client mentions it in a routine email.", "L1"],
+  ["The daily SLA has been below target for three days, and the client's operations lead has flagged it.", "L2"],
+  ["After a repeat breach, the client's VP asks for a leadership call and mentions reviewing the contract.", "L3"],
+  ["Client data has been sent to the wrong recipient.", "L4"]];
+$("#sorter").innerHTML = SORT.map((s, i) => `<div class="sortRow"><label for="s${i}" style="font-weight:400;margin:0">${s[0]}</label>
+  <select id="s${i}"><option value="">Choose a level</option>${LEVELS.map(l => `<option>${l.k}</option>`).join("")}</select><span id="sm${i}" aria-live="polite"></span></div>`).join("");
+$("#sortCheck").addEventListener("click", () => {
+  let right = 0;
+  SORT.forEach((s, i) => { const ok = $("#s" + i).value === s[1]; if (ok) right++; $("#sm" + i).textContent = $("#s" + i).value ? (ok ? "✓" : "✗") : ""; });
+  const fb = $("#sortFb"); fb.className = "fb show " + (right === 4 ? "good" : "info");
+  fb.innerHTML = right === 4 ? "<b>All four correct.</b> You sized each one at the right level." :
+    `<b>${right} of 4 correct.</b> The answers are L1, L2, L3 and L4, in that order. Look at who's involved on the client side and what's at stake: a repeat breach with a VP involved is a relationship risk, and a data issue is always critical.`;
+});
+
+/* ---------- STEER ---------- */
+const STEER = [
+  ["S", "Stabilise", "var(--teal)", "First hour", "Contain the impact and send a holding response. Stop the bleeding: hold work, re-route it or add capacity. You don't need all the facts to respond well, but you do need to respond within the client's working hours."],
+  ["T", "Take ownership", "var(--blue)", "First hour", "Own the outcome visibly, with no blame, even when the cause sits with a vendor, another tower or the client's own change. Owning the recovery isn't the same as admitting fault for the cause, and escalating upward never means handing the ownership over."],
+  ["E", "Engage", "var(--aqua)", "First day", "Bring in the right people at the right level and time zone: the client sponsor, your own leadership (before the client calls them), your team, and partner teams with a clear ask, owner and deadline."],
+  ["E", "Execute and communicate", "var(--sage)", "Until resolved", "Run the recovery plan on a set update rhythm: daily for L2, twice daily for L3, agreed slots plus executive briefings for L4. Every update covers status against plan, what changed, risks and the time of the next update."],
+  ["R", "Review and prevent", "var(--coral)", "After", "Keep asking \"why\" until you reach a process or system cause, not a person. Agree corrective and preventive actions with owners and dates. Check whether the same issue exists in other teams, clients or LOBs. Then close the loop with the client."]
+];
+STEER.forEach((s, i) => {
+  const b = document.createElement("button"); b.style.background = s[2];
+  b.innerHTML = `<b>${s[0]}</b>${s[1]}`; b.setAttribute("aria-pressed", "false");
+  b.addEventListener("click", () => showSteer(i)); $("#steerBtns").appendChild(b);
+});
+function showSteer(i) {
+  const s = STEER[i];
+  $$("#steerBtns button").forEach((b, k) => b.setAttribute("aria-pressed", k === i));
+  $("#steerDetail").innerHTML = `<span class="tag">${s[3]}</span><h4 style="margin-top:8px">${s[0]}: ${s[1]}</h4><p style="margin:0">${s[4]}</p>`;
+}
+showSteer(0);
+
+/* ---------- Branching scenario ---------- */
+const LOBS = {
+  rcm: { n: "RCM / healthcare ops", issue: "AR days have climbed by 12 in six weeks since a client process change", impact: "their cash flow", who: "the client's CFO" },
+  support: { n: "Customer support", issue: "CSAT has dropped 15 points in two weeks, and a customer complaint is trending on social media", impact: "their brand and customer experience", who: "the client's Head of CX" },
+  back: { n: "Back-office / data processing", issue: "the daily SLA has fallen to 82% against 98%, and the backlog has been building for five days", impact: "their month-end reporting", who: "the client's VP Operations" },
+  it: { n: "IT / tech support", issue: "the client portal was down for three hours, the third outage this month", impact: "their users' access", who: "the client's CIO" },
+  proj: { n: "Projects / transitions", issue: "go-live has slipped by three weeks", impact: "their launch plans", who: "the client's programme sponsor" },
+  qa: { n: "Quality / compliance", issue: "the audit shows accuracy at 94% against a 99% contract target", impact: "their compliance position", who: "the client's Head of Quality" }
+};
+const DECISIONS = (L) => [
+  { clock: "7:40 pm your time | 10:10 am for the client",
+    text: `An email arrives from ${L.who}: ${L.issue}. They want a call with your leadership today. You don't know the root cause yet.`,
+    opts: [
+      { t: "Investigate first. Reply tomorrow, once you have the root cause and the full picture.", s: 0, step: "Stabilise",
+        f: "The client hears nothing for a full working day. By the time you reply, they've copied your CEO. Accuracy matters, but silence turned a service issue into a relationship issue." },
+      { t: "Send a holding statement now: acknowledge the impact, own it, name a recovery owner and give a time for the next update.", s: 2, step: "Stabilise + Take ownership",
+        f: `Strong move. The client knows you've heard them, who's leading and when they'll hear more. You've bought time to investigate properly without the impact on ${L.impact} going unacknowledged.` },
+      { t: "Call the client right away and promise it will be fixed by the end of their day.", s: 1, step: "Stabilise",
+        f: "The client calms down for now, but you've promised a fix before you know the cause. If you miss it, you'll face a second escalation about broken trust. Commit to a time for an update, not a fix." }
+    ] },
+  { clock: "The next morning",
+    text: "Your Manager tells you the issue actually started ten days ago. The team noticed but thought they could fix it quietly before anyone found out.",
+    opts: [
+      { t: "Raise it in tomorrow's team huddle: make it clear this can't happen again, and find out who decided not to flag it.", s: 0, step: "Review",
+        f: "The message the team hears is \"telling the truth gets you in trouble.\" Next time, they'll hide problems for longer. The fix is still needed, but blame in public shuts down speaking up." },
+      { t: "Thank them for telling you now. Focus on the fix first, and set up a separate, no-blame review of why it wasn't raised.", s: 2, step: "Execute + Review",
+        f: "This is the senior-leader move. You keep momentum on the recovery and treat the ten-day silence as a system issue to fix: unclear triggers, fear of reaction, or no easy way to raise concerns." },
+      { t: "Leave it for now. The client is the priority; the internal side can wait.", s: 1, step: "Execute",
+        f: "The recovery moves forward, but the real root cause, a team that didn't feel able to speak up, goes unaddressed. It will produce the next escalation." }
+    ] },
+  { clock: "Day 2 | Leadership call with the client",
+    text: `On the call, ${L.who} asks, "Who is responsible for this?" and then says they expect a service credit.`,
+    opts: [
+      { t: "Explain that a team member made an error, and assure them it has been dealt with.", s: 0, step: "Take ownership",
+        f: "The client now wonders whether leadership is in control, and word gets back to your team. Naming individuals rarely rebuilds client trust. It usually reduces it." },
+      { t: "Agree to the service credit on the spot to calm things down.", s: 1, step: "Engage",
+        f: "The tension drops, but you've made a commercial commitment without involving the right people and set a precedent. The client's real need, confidence that it won't happen again, is still unmet." },
+      { t: "Say, \"I'm responsible,\" share what you know so far, what you've done and when they'll get the root cause. On the credit, agree to review the contract terms with your commercial lead and come back by a set date.", s: 2, step: "Take ownership + Engage",
+        f: "Excellent. You owned it without blaming anyone, gave them specifics and handled the commercial question through the right channel with a clear date. This is what calms a senior client." }
+    ] }
+];
+let lob = null, dIdx = 0, choices = [];
+function renderLobPick() {
+  $("#branch").innerHTML = `<div class="lobs">${Object.entries(LOBS).map(([k, v]) => `<button data-lob="${k}">${v.n}</button>`).join("")}</div>`;
+  $$("#branch [data-lob]").forEach(b => b.addEventListener("click", () => { lob = LOBS[b.dataset.lob]; dIdx = 0; choices = []; renderDecision(); }));
+}
+function renderDecision() {
+  const D = DECISIONS(lob)[dIdx];
+  $("#branch").innerHTML = `<div class="steps">${[0, 1, 2].map(i => `<i class="${i <= dIdx ? "on" : ""}"></i>`).join("")}</div>
+    <div class="scene"><div class="clock">${lob.n} | ${D.clock}</div><p style="margin:0;font-size:19px">${D.text}</p></div>
+    <div class="q" style="margin-top:16px"><div class="stem">What do you do?</div><div class="opts">${D.opts.map((o, i) => `<button class="opt" data-i="${i}">${o.t}</button>`).join("")}</div>
+    <div class="fb" id="bFb" aria-live="polite"></div></div>`;
+  $$("#branch .opt").forEach(b => b.addEventListener("click", () => {
+    if ($("#bFb").classList.contains("show")) return;
+    const o = D.opts[+b.dataset.i]; choices.push(o.s);
+    b.setAttribute("aria-pressed", "true"); b.classList.add(o.s === 2 ? "correct" : "wrong");
+    const fb = $("#bFb"); fb.className = "fb show " + (o.s === 2 ? "good" : o.s === 1 ? "info" : "bad");
+    fb.innerHTML = `<span class="tag">STEER: ${o.step}</span><p style="margin:8px 0">${o.f}</p><button class="btn" id="bNext">${dIdx < 2 ? "What happens next" : "See how you did"}</button>`;
+    $("#bNext").addEventListener("click", () => { if (dIdx < 2) { dIdx++; renderDecision(); } else renderBranchEnd(); });
+  }));
+}
+function renderBranchEnd() {
+  const score = choices.reduce((a, b) => a + b, 0);
+  const msg = score === 6 ? "You led this escalation the way a senior leader should: fast acknowledgement, ownership without blame, and a focus on the system behind the problem."
+    : score >= 4 ? "A solid response with one or two moments to sharpen. Look at the STEER step tagged on the choices that weren't the strongest."
+    : "Escalations like this are hard, which is why we practise them. Try again and notice how each early decision shaped what came next.";
+  $("#branch").innerHTML = `<div class="panel"><h4>Scenario complete: ${score} out of 6</h4><p>${msg}</p><button class="btn ghost" id="bAgain">Try a different line of business</button></div>`;
+  $("#bAgain").addEventListener("click", renderLobPick);
+}
+renderLobPick();
+
+/* ---------- Holding statement ---------- */
+function builder(ids, textFn, prevEl, copyBtn, copiedEl, after) {
+  const render = () => { $(prevEl).textContent = textFn(); if (after) after(); };
+  ids.forEach(id => $("#" + id).addEventListener("input", render)); render();
+  $(copyBtn).addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(textFn()); $(copiedEl).textContent = "Copied"; }
+    catch { $(copiedEl).textContent = "Select the preview text and copy it manually."; }
+  });
+}
+const val = id => $("#" + id).value.trim() || "[" + $("label[for=" + id + "]").textContent.toLowerCase() + "]";
+builder(["hsIssue", "hsImpact", "hsOwner", "hsAction", "hsTime", "hsTz"],
+  () => `Thank you for raising this. We understand ${val("hsIssue")} is affecting ${val("hsImpact")}.\n\nThis is ours to fix. ${val("hsOwner")} is leading the recovery, and we have already ${val("hsAction")}.\n\nYou'll hear from me by ${val("hsTime")} ${$("#hsTz").value} with what we've found and the recovery plan.`,
+  "#hsPreview", "#hsCopy", "#hsCopied");
+
+/* ---------- Language swaps ---------- */
+const SW = [["\"Don't worry, it's under control.\"", "\"Here's what we're doing to protect your month-end.\"", 1, "Specifics calm people more than reassurance. \"Don't worry\" can sound dismissive to an upset executive."],
+  ["\"We'll fix it ASAP.\"", "\"You'll have the recovery plan by 4 pm EST.\"", 1, "\"ASAP\" means different things in Chennai, Manila, Colombo and New York. Always give a time and a time zone."],
+  ["\"A dependency failed. Managing it is our responsibility.\"", "\"It wasn't us. The vendor's patch caused it.\"", 0, "Clients hold you accountable for your vendors. You can share the facts while still owning the outcome."],
+  ["\"I'll have to check and get back to you.\"", "\"Here's what I know now. I'll confirm the rest by 2 pm.\"", 1, "Share what you know now and commit to a time for the rest. Vague follow-ups make silence feel longer."],
+  ["\"We missed this, and I own it.\"", "\"The team made a mistake.\"", 0, "Senior clients want to know leadership is in control. Pointing at the team does the opposite."]];
+$("#swaps").innerHTML = SW.map((s, i) => `<div class="q"><div class="counter">Pair ${i + 1} of ${SW.length}</div><div class="swap">
+  <button class="opt" data-sw="${i}" data-c="0">${s[0]}</button><button class="opt" data-sw="${i}" data-c="1">${s[1]}</button></div>
+  <div class="fb" id="swfb${i}" aria-live="polite"></div></div>`).join("");
+$$("#swaps .opt").forEach(b => b.addEventListener("click", () => {
+  const i = +b.dataset.sw, s = SW[i], fb = $("#swfb" + i); if (fb.classList.contains("show")) return;
+  const ok = +b.dataset.c === s[2];
+  b.classList.add(ok ? "correct" : "wrong"); $$(`#swaps [data-sw="${i}"]`)[s[2]].classList.add("correct");
+  fb.className = "fb show " + (ok ? "good" : "bad"); fb.innerHTML = `<b>${ok ? "Yes." : "The other one is stronger."}</b> ${s[3]}`;
+}));
+
+/* ---------- Multi-select checker ---------- */
+function multi(el, items, btn, fbEl, goodMsg, partialMsg, after) {
+  $(el).innerHTML = items.map((it, i) => `<label><input type="checkbox" data-i="${i}"> <span>${it[0]}</span></label>`).join("");
+  $(btn).addEventListener("click", () => {
+    let right = 0, wrong = 0;
+    $$(el + " input").forEach(c => {
+      const ok = items[+c.dataset.i][1], lab = c.closest("label"); lab.classList.remove("correct", "wrong", "missed");
+      if (c.checked && ok) { lab.classList.add("correct"); right++; } else if (c.checked && !ok) { lab.classList.add("wrong"); wrong++; } else if (!c.checked && ok) lab.classList.add("missed");
+    });
+    const total = items.filter(x => x[1]).length, fb = $(fbEl);
+    fb.className = "fb show " + (right === total && !wrong ? "good" : "info");
+    fb.innerHTML = right === total && !wrong ? goodMsg : partialMsg(right, total, wrong);
+    if (after) after();
+  });
+}
+multi("#missing", [["What happened and when it started", true], ["What's affected now, and what could be affected next", true], ["What's already been done to contain it", true],
+  ["What's known and what's still being checked", true], ["A recommendation and the decision needed, from whom, by when", true], ["Who owns the next update", true], ["A full list of everyone involved", false]],
+  "#missCheck", "#missFb",
+  `<b>Exactly.</b> Everything useful was missing. That message passes the problem upward without ownership. Here's a decision-ready version:<p style="margin:10px 0 0;font-style:italic">"Since Monday, daily processing for one client has fallen to 82% against a 98% SLA, putting their month-end close on Friday at risk. We've added 6 people from the flex pool and prioritised the oldest items. The cause looks like a client process change we weren't told about; we're confirming today. I recommend we offer the client a recovery plan with daily updates. I need your approval to extend the flex support to Friday, by 2 pm today. I'll own the client update and send you the next status at 5 pm."</p>`,
+  (r, t, w) => `<b>You found ${r} of ${t}${w ? `, plus ${w} that isn't essential` : ""}.</b> The dashed boxes show what you missed. A full list of people isn't needed; your leader needs facts, impact, action, recommendation and a clear ask.`);
+
+const UP = [["upWhat", "What happened", "Since Monday, daily processing for one client has fallen to 82% against 98%"], ["upImpact", "Impact", "Their month-end close on Friday is at risk"],
+  ["upAction", "Action taken", "Added 6 people from the flex pool; prioritised the oldest items"], ["upKnown", "Known and unknown", "Cause looks like an unannounced client process change; confirming today"],
+  ["upRec", "Recommendation", "Offer the client a recovery plan with daily updates"], ["upAsk", "Decision needed, from whom, by when", "Your approval to extend flex support to Friday, by 2 pm today"],
+  ["upNext", "Owner and next update", "I own the client update; next status to you at 5 pm"]];
+$("#upFields").innerHTML = UP.map(u => `<label for="${u[0]}">${u[1]}</label><input type="text" id="${u[0]}" placeholder="${u[2]}">`).join("");
+builder(UP.map(u => u[0]), () => UP.map(u => `${u[1]}: ${$("#" + u[0]).value.trim() || u[2]}`).join("\n"), "#upPreview", "#upCopy", "#upCopied",
+  () => { const w = $("#upPreview").textContent.split(/\s+/).length; $("#upCount").textContent = `About ${w} words, roughly ${Math.round(w / 2.3)} seconds to say aloud. Aim for under 90 seconds.`; });
+
+/* ---------- Region flips ---------- */
+const REG = [["US", "Clients and US stakeholders", "var(--blue)", "Often direct and quick to escalate, sometimes straight to the top. Overnight silence can read as neglect.", "Acknowledge within their working day, and give a named owner and a time."],
+  ["IN", "India teams", "var(--coral)", "May say \"yes, it'll be done\" to show commitment, even when it's at risk. Hierarchy can slow escalation.", "Ask \"What could stop this?\" instead of \"Will it be done?\""],
+  ["PH", "Philippines teams", "var(--teal)", "Strong service focus and value harmony. Bad news may be softened or delayed to avoid conflict.", "Offer private, low-risk ways to flag issues, and always thank the messenger."],
+  ["SL", "Sri Lanka teams", "#3E8A72", "Deep respect for seniority. People may wait for permission before escalating.", "Set clear thresholds: \"If X happens, escalate. No approval needed.\""]];
+REG.forEach(r => {
+  const b = document.createElement("button"); b.className = "flip"; b.setAttribute("aria-pressed", "false");
+  b.setAttribute("aria-label", `${r[1]}. ${r[3]} Select to see the leader move.`);
+  b.innerHTML = `<div class="inner"><div class="face front"><div class="code" style="background:${r[2]}">${r[0]}</div><h4>${r[1]}</h4><p class="small" style="margin:0">${r[3]}</p><span class="hint">Select to see the leader move</span></div>
+    <div class="face back" style="background:${r[2]}"><h4 style="color:#fff">Leader move</h4><p style="margin:0">${r[4]}</p></div></div>`;
+  b.addEventListener("click", () => { const p = b.getAttribute("aria-pressed") === "true"; b.setAttribute("aria-pressed", !p); if (!p) b.setAttribute("aria-label", "Leader move: " + r[4]); });
+  $("#flips").appendChild(b);
+});
+
+/* ---------- Handoff ---------- */
+let hoShown = false;
+multi("#handoff", shuffle([["A named owner on the incoming shift", true], ["The current impact on the client", true], ["Actions completed so far", true], ["Open risks, and anything getting worse", true],
+  ["The next checkpoint, in the client's time zone", true], ["Who to escalate to, and how to reach them", true], ["Explicit confirmation from the incoming owner: \"I've got it\"", true],
+  ["A completed root cause analysis", false], ["Your Director's approval for the handoff", false], ["The full email history of the issue", false]]),
+  "#hoCheck", "#hoFb", "<b>That's the full list.</b> The most-missed item is explicit acceptance. Without it, nobody owns the issue overnight.",
+  (r, t, w) => `<b>You found ${r} of ${t}${w ? `, and picked ${w} that isn't needed` : ""}.</b> An RCA, Director approval and the full email history can come later. The dashed boxes show what you missed. The most-missed item is explicit acceptance.`,
+  () => {
+    if (hoShown) return; hoShown = true;
+    $("#hoFollow").innerHTML = `<div class="panel q" style="margin-top:16px"><div class="stem">You've sent the handoff note, but the incoming team lead hasn't replied. Your shift ended 20 minutes ago. What do you do?</div>
+      <div class="opts" id="hoOpts"></div><div class="fb" id="hoFb2"></div></div>`;
+    const O = shuffle([["Log off. The note is in the shared channel, so it's their responsibility now.", 0, "That's the silent handoff that created the original gap. Until someone confirms, you still own it."],
+      ["Call or message the incoming lead directly, and stay on until they confirm. If you can't reach them, escalate to the incoming shift's manager.", 2, "Right. No confirmation means no handoff. Close the gap yourself, then escalate if you need to."],
+      ["Email the client to say the next shift will update them.", 1, "Keeping the client informed is good, but you're promising something nobody has accepted yet. Confirm ownership first."]]);
+    $("#hoOpts").innerHTML = O.map((o, i) => `<button class="opt" data-i="${i}">${o[0]}</button>`).join("");
+    $$("#hoOpts .opt").forEach(b => b.addEventListener("click", () => {
+      const fb = $("#hoFb2"); if (fb.classList.contains("show")) return; const o = O[+b.dataset.i];
+      b.classList.add(o[1] === 2 ? "correct" : "wrong"); fb.className = "fb show " + (o[1] === 2 ? "good" : o[1] ? "info" : "bad"); fb.textContent = o[2];
+    }));
+  });
+
+/* ---------- Pressure test ---------- */
+const PRESS = [
+  { title: "The fix fails", text: "Two days in, the recovery plan you shared with the client isn't working. The backlog is growing again, and the client's deadline is tomorrow. Your team is exhausted.",
+    opts: [["Keep the team pushing overnight and hope to recover before the client notices.", 0, "This turns a delay into a trust issue. When the client finds out, and they will, the question becomes why you didn't tell them."],
+      ["Tell the client honestly that the plan isn't working, share a revised plan with realistic dates, and escalate to your Director with options and your recommendation for extra support.", 2, "Strong. You communicate uncertainty honestly, escalate with a clear ask, and keep ownership. Clients respect a leader who changes course openly."],
+      ["Escalate to your Director and ask them to take over the client relationship from here.", 1, "Bringing your Director in is right, but handing it over isn't. Escalation should add support, not transfer accountability."]] },
+  { title: "Stakeholders disagree", text: "A peer in another tower controls the people you need, and says their own client deadline comes first. Neither of you has the authority to decide.",
+    opts: [["Escalate jointly to your shared leader with the facts of both situations, the options and a recommendation, and agree to accept the decision.", 2, "Right. Raising it together, with facts and options, gets a fast decision without damaging the relationship."],
+      ["Go around your peer and ask their team members directly for help.", 0, "You might get help today, but you damage the relationship and undermine your peer. It usually costs more later."],
+      ["Accept their answer and tell your client you couldn't get resources.", 1, "This avoids conflict, but leaves the client to pay for an internal disagreement. When neither of you can decide, escalate the decision."]] },
+  { title: "A shortcut from above", text: "Your Director suggests telling the client the delay was caused by a vendor, to buy some time. You know the cause is mostly internal.",
+    opts: [["Go along with it. It's their call, and it does buy time.", 0, "If the client finds out, trust in the whole account takes a hit, along with your own credibility. Senior leaders are expected to challenge this."],
+      ["Refuse openly in front of the wider team.", 1, "Your instinct is right, but challenging in public puts your Director on the defensive and makes agreement less likely."],
+      ["Raise it privately: share the facts, the risk if the client finds out, and an honest message that still protects the relationship.", 2, "This is respectful challenge. You protect the client relationship and your Director's credibility, and you offer a better option rather than just saying no."]] }
+];
+$("#pressure").innerHTML = PRESS.map((p, i) => `<div class="q" style="margin-bottom:30px"><div class="scene"><div class="clock">Pressure test ${i + 1} of ${PRESS.length} | ${p.title}</div><p style="margin:0;font-size:19px">${p.text}</p></div>
+  <div class="opts" style="margin-top:14px">${shuffle(p.opts.map((o, j) => j)).map(j => `<button class="opt" data-p="${i}" data-j="${j}">${p.opts[j][0]}</button>`).join("")}</div><div class="fb" id="pfb${i}"></div></div>`).join("");
+$$("#pressure .opt").forEach(b => b.addEventListener("click", () => {
+  const i = +b.dataset.p, o = PRESS[i].opts[+b.dataset.j], fb = $("#pfb" + i); if (fb.classList.contains("show")) return;
+  b.classList.add(o[1] === 2 ? "correct" : "wrong"); fb.className = "fb show " + (o[1] === 2 ? "good" : o[1] ? "info" : "bad"); fb.textContent = o[2];
+}));
+
+/* ---------- Five whys ---------- */
+const WHYS = [["Why did the agent key the wrong code?", "The code list changed last week and they were using the old one."],
+  ["Why were they using the old list?", "The update was emailed to team leads, but never added to the work instructions."],
+  ["Why wasn't it added?", "Nobody owns turning client changes into updated instructions."],
+  ["Why does nobody own it?", "Client changes come into account management and don't have a defined path to delivery teams."]];
+$("#whys").innerHTML = WHYS.map((w, i) => `<div class="w ${i === WHYS.length - 1 ? "root" : ""}" id="w${i}"><b>${w[0]}</b><br>${w[1]}${i === WHYS.length - 1 ? "<p style='margin:8px 0 0'><b>Root cause:</b> there's no owned process for passing client changes to delivery. Retraining the agent would have fixed nothing, and the same thing would happen in another team next month.</p>" : ""}</div>`).join("");
+let whyI = 0;
+$("#whyBtn").addEventListener("click", () => { if (whyI < WHYS.length) { $("#w" + whyI).classList.add("show"); whyI++; } if (whyI === WHYS.length) { $("#whyBtn").disabled = true; $("#whyBtn").textContent = "Root cause reached"; } });
+
+/* ---------- Escalation log ---------- */
+const LOG = [["Jul", "RCM", "Posting SLA missed", "Volume spike, no flex staffing"], ["Jul", "Support", "CSAT drop on one queue", "New hires on the floor without nesting"],
+  ["Aug", "Back-office", "Backlog found late", "Team afraid to raise it"], ["Aug", "IT", "Portal outage", "Vendor patch not tested"],
+  ["Aug", "RCM", "Denials spike", "Client process change not shared internally"], ["Sep", "Support", "Complaint escalated to client VP", "New hires, script gap"],
+  ["Sep", "Projects", "Go-live slip", "Client change not shared with delivery team"], ["Sep", "Back-office", "SLA missed at month-end", "Volume spike, no flex staffing"]];
+$("#logTable").innerHTML = `<tr><th>#</th><th>Month</th><th>LOB</th><th>Escalation</th><th>Root cause given</th></tr>` + LOG.map((r, i) => `<tr><td><b>${i + 1}</b></td>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
+const PQ = [["Which two escalations come from client changes that never reached the delivery team?", [5, 7], "#5 and #7. Two different LOBs, one cause: there's no owned path for client changes. It's the same root cause as the \"keep asking why\" example."],
+  ["Which two point to a capacity problem?", [1, 8], "#1 and #8. Volume spikes with no flex model, in RCM and back-office. A shared flex pool with a clear trigger would prevent both."],
+  ["Which one is most clearly a leadership and culture issue?", [3], "#3. A team afraid to raise a backlog is a speak-up problem. It's often the most important one, because it hides all the others."]];
+$("#patternQs").innerHTML = PQ.map((q, i) => `<div class="panel q"><div class="stem">${q[0]}</div><div class="checks" style="grid-template-columns:repeat(4,1fr)">${LOG.map((_, j) => `<label><input type="checkbox" data-q="${i}" data-n="${j + 1}"> #${j + 1}</label>`).join("")}</div>
+  <button class="btn" data-pq="${i}">Check</button><div class="fb" id="pqfb${i}"></div></div>`).join("");
+$$("[data-pq]").forEach(b => b.addEventListener("click", () => {
+  const i = +b.dataset.pq, q = PQ[i];
+  const picked = $$(`#patternQs input[data-q="${i}"]`).filter(c => c.checked).map(c => +c.dataset.n);
+  $$(`#patternQs input[data-q="${i}"]`).forEach(c => { const lab = c.closest("label"); lab.classList.remove("correct", "wrong", "missed"); const n = +c.dataset.n;
+    if (c.checked && q[1].includes(n)) lab.classList.add("correct"); else if (c.checked) lab.classList.add("wrong"); else if (q[1].includes(n)) lab.classList.add("missed"); });
+  const ok = picked.length === q[1].length && q[1].every(n => picked.includes(n));
+  const fb = $("#pqfb" + i); fb.className = "fb show " + (ok ? "good" : "info"); fb.innerHTML = `<b>${ok ? "Spot on." : "Here's the answer."}</b> ${q[2]}`;
+}));
+
+/* ---------- Final assessment ---------- */
+const KC = [
+  ["You don't know the root cause yet, and an upset client is waiting. What's the best first message?",
+    ["A holding statement with an owner and a specific time for the next update", "Wait until you have the full RCA so you don't share anything inaccurate", "A detailed explanation of the likely causes", "An apology and a promise to fix it by the end of the day"],
+    "A holding statement acknowledges, owns and commits to a next update without guessing the cause or promising a fix you can't guarantee."],
+  ["Your Manager is handling an L2 escalation well. As a Senior Manager, your best role is to...",
+    ["Coach the plan and check the client message", "Take over so the client sees senior involvement", "Stay completely out of it", "Escalate it to your Director"],
+    "At L2 the Manager leads. Taking over undermines them; staying out entirely misses the chance to coach and catch risks."],
+  ["A team member suspects personal data was sent to the wrong recipient, but it isn't confirmed. What should happen?",
+    ["Raise it through the designated incident route straight away", "Wait until it's confirmed, to avoid a false alarm", "Ask the team member to contact the recipient and sort it out", "Tell the client immediately what you think happened"],
+    "Possible data incidents go through the designated route at once. Missing facts aren't a reason to wait, and speculating with the client before the facts are known can make it worse."],
+  ["Which upward escalation is most decision-ready?",
+    ["\"SLA is at 82% against 98% since Monday; month-end is at risk. We've added flex staff. I recommend extending them to Friday and need your approval by 2 pm.\"", "\"We have a serious issue with a client. The team is looking into it. Please advise.\"", "\"The team has made some errors, and the client is unhappy. Can we discuss?\"", "\"FYI, things are a bit behind this week but we should be OK.\""],
+    "It covers what happened, impact, action taken, a recommendation and a clear decision with a deadline, and the leader still owns it."],
+  ["The RCA says the root cause is \"agent keyed the wrong code.\" What should you do?",
+    ["Keep asking why until you reach a process or system cause", "Accept it and arrange retraining for the agent", "Close the RCA, because the cause is clear", "Ask the client what they think caused it"],
+    "If a person's name is the root cause, you haven't finished. Keep asking why until you reach the process or system behind it."],
+  ["A critical issue is being handed from one region's shift to the next. Which item is most often missed and most essential?",
+    ["Explicit confirmation from the incoming owner that they've accepted it", "A completed root cause analysis", "Director approval for the handoff", "The full email history"],
+    "No confirmation means no handoff. Without it, nobody owns the issue overnight."],
+  ["Your recovery plan has failed and the client's deadline is tomorrow. What's the strongest move?",
+    ["Tell the client honestly, share a revised plan, and escalate to your Director with options while keeping ownership", "Push the team overnight and hope to recover before the client notices", "Ask your Director to take over the client relationship", "Wait until after the deadline to explain"],
+    "Communicating uncertainty honestly, escalating with a clear ask and keeping ownership is what senior clients respect."],
+  ["Which measure best shows whether escalations are actually being prevented?",
+    ["Repeat escalation rate", "Number of escalations closed this month", "Total number of escalations raised", "CSAT on the final call"],
+    "Closing escalations shows you're firefighting well. A falling repeat rate shows you're fixing the system. A rise in total escalations can even be a good sign if people are speaking up earlier."],
+  ["Two weeks before a deadline, a team member in Manila tells you it's at risk. It turns out to be minor. The best response is to...",
+    ["Thank them publicly for raising it early", "Remind them to escalate only real problems", "Say nothing, since it turned out fine", "Ask them to resolve issues like this themselves next time"],
+    "Rewarding early amber flags, even false alarms, is how you make sure you hear about the real ones in time."],
+  ["On a leadership call, the client executive asks, \"Who is responsible?\" The strongest answer is...",
+    ["\"I'm responsible. Here's what we know and what we're doing.\"", "\"The team on the night shift missed it.\"", "\"Our vendor caused the issue.\"", "\"We're still investigating, so I can't say.\""],
+    "Senior clients want to know that leadership is in control. Owning it personally, with specifics, does that."]
+];
+let kcState;
+function renderKC() {
+  kcState = { right: 0, done: 0 };
+  const qs = KC.map(q => { const o = shuffle(q[1].slice()); return { stem: q[0], opts: o, ans: o.indexOf(q[1][0]), exp: q[2] }; });
+  $("#kcScore").className = "fb info";
+  $("#kc").innerHTML = qs.map((q, i) => `<div class="q panel"><div class="counter">Question ${i + 1} of ${qs.length}</div><div class="stem">${q.stem}</div>
+    <div class="opts">${q.opts.map((o, j) => `<button class="opt" data-q="${i}" data-j="${j}">${o}</button>`).join("")}</div><div class="fb" id="kfb${i}" aria-live="polite"></div></div>`).join("");
+  $$("#kc .opt").forEach(b => b.addEventListener("click", () => {
+    const i = +b.dataset.q, q = qs[i], fb = $("#kfb" + i); if (fb.classList.contains("show")) return;
+    const ok = +b.dataset.j === q.ans; kcState.done++; if (ok) kcState.right++;
+    b.classList.add(ok ? "correct" : "wrong"); $$(`#kc [data-q="${i}"]`)[q.ans].classList.add("correct");
+    fb.className = "fb show " + (ok ? "good" : "bad"); fb.innerHTML = `<b>${ok ? "Correct." : "Not quite."}</b> ${q.exp}`;
+    if (kcState.done === qs.length) {
+      const pass = kcState.right >= 8, s = $("#kcScore");
+      s.className = "fb show " + (pass ? "good" : "info");
+      s.innerHTML = `<div class="pass">${kcState.right} out of ${qs.length}: ${pass ? "Passed" : "Not yet passed"}</div><p style="margin:6px 0">${pass ? "Well done. You've shown the judgement this course is built around." : "The pass mark is 8. Review the feedback above, revisit the sections it points to, then try again."}</p><button class="btn ghost" id="kcRetake">Retake the assessment</button>`;
+      $("#kcRetake").addEventListener("click", () => { renderKC(); window.scrollTo({ top: $("#kc").offsetTop - 20 }); });
+    }
+  }));
+}
+renderKC();
+
+/* ---------- Print + finish ---------- */
+function printOnly(cls) { document.body.classList.add(cls); window.print(); }
+window.addEventListener("afterprint", () => document.body.classList.remove("p-plan", "p-tools"));
+$("#printPlan").addEventListener("click", () => printOnly("p-plan"));
+$("#printTools").addEventListener("click", () => printOnly("p-tools"));
+$("#finishBtn").addEventListener("click", () => {
+  complete(mods.length - 1);
+  const m = $("#finishMsg"); m.classList.add("show");
+  const passed = kcState.done === KC.length && kcState.right >= 8;
+  m.innerHTML = `<b>Course complete${done.size === mods.length ? "" : ", though some sections are still unvisited"}.</b> ${passed ? "You passed the final assessment." : "Remember to complete the final assessment (pass mark 8 out of 10)."} Print or save your 30-day plan and toolkit before you close this page.`;
+});
+show(0);
+
+</script></body></html>
